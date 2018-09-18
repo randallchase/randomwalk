@@ -20,7 +20,7 @@ function initialize(){
 	WIDTH = canvas.width;
 	HEIGHT= canvas.height;
 	color = 'green';
-	var n = 1,i,x,y,dx=0,dy=0,p; 
+	var n = 3,i,x,y,dx=0,dy=0,p;
 
 	// build particles			
 	for (i = 0; i < n; i+=1) {
@@ -44,13 +44,19 @@ function updateParticles() {
 
 		start.x = p.x; start.y = p.y;
 		// at present this is a random step size
-		p.dx = diffusionDistance*Math.random(); 
-		p.dy = diffusionDistance*Math.random();
+		p.dx = diffusionDistance*(Math.random() - 0.5) * 2;
+		p.dy = diffusionDistance*(Math.random() - 0.5) * 2;
+
+		// Normalize to make the lines a unit vector
+		// p.dx = p.dx / Math.sqrt(p.dx^2 + p.dy^2)
+        // p.dy = p.dy / Math.sqrt(p.dx^2 + p.dy^2)
+
 		checkWallCollision(p);
 		
 		p.x += p.dx; p.y += p.dy;
 		DrawCircle(p.x,p.y,color);
 		DrawLine(start.x,start.y,p.x,p.y);
+		console.log("x: ",p.x,"; y: ", p.y);
 	}		
 	DrawRect(0,0,WIDTH,HEIGHT);
 }
@@ -58,14 +64,22 @@ var checkWallCollision = function(p){
 	/* make particle bounce off walls
 		enter code here
 	*/
+    if (p.x + p.dx < 0 || p.x + p.dx > WIDTH) {
+
+    }
+
+	// Determine if the line exceeds the wall in x and y.
+    // Stop line at wall.
+    // Invert the offending axis at the wall.
 	
 };
-/*        
+
 	function normalize(x,y){
 		// calculate len here to normalize the vector
 		//return {x:x/len,y:y/len};  // return a unit vector
+
 	}
-*/
+
 
 	function DrawCircle(x,y,color){
 		context.fillStyle = color;
